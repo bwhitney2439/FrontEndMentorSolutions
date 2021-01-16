@@ -121,6 +121,7 @@ h1 {
 }
 
 .checkradio {
+  position: relative;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -128,9 +129,23 @@ h1 {
   min-height: 20px;
   min-width: 20px;
   border-radius: 50%;
-  border: 1px solid var(--border-color);
-  /* background-image: var(--check-background); */
-  background: transparent;
+  background: var(--border-color);
+}
+
+.checkradio:hover {
+  background: linear-gradient(to bottom right, #57ddff, #c058f3);
+}
+
+.checkradio::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  z-index: 1000;
+  background: var(--bg-input);
+  border-radius: 50%;
 }
 
 [type="checkbox"]:not(:checked),
@@ -140,10 +155,8 @@ h1 {
   opacity: 0.01;
 }
 
-#toggle:checked ~ .checkradio {
-  background: url("./images/icon-check.svg"), var(--check-background);
-  background-position: center, left top;
-  background-repeat: no-repeat, repeat;
+[type="checkbox"]:checked ~ .checkradio::before {
+  z-index: -1;
 }
 
 [type="checkbox"]:checked ~ .checkradio {
@@ -360,6 +373,7 @@ h6 {
   }
 
   .checkradio {
+    position: relative;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -367,8 +381,24 @@ h6 {
     min-height: 24px;
     min-width: 24px;
     border-radius: 50%;
-    border: 1px solid var(--border-color);
-    background: transparent;
+    background: var(--border-color);
+  }
+
+  .checkradio:hover {
+    background: linear-gradient(to bottom right, #57ddff, #c058f3);
+  }
+
+  .checkradio::before {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    z-index: 1000;
+    background: var(--bg-input);
+    border-radius: 50%;
   }
 
   .todos {
