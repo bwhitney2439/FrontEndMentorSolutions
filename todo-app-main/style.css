@@ -174,7 +174,6 @@ h1 {
   border-radius: 5px;
   background: var(--bg-input);
   box-shadow: var(--shadow-box);
-  margin-bottom: 16px;
 }
 
 .todo:nth-child(1) {
@@ -242,6 +241,7 @@ input[type="text"]::placeholder {
   padding: 16px 20px 16px 20px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  margin-bottom: 16px;
 }
 .todos-footer p {
   cursor: pointer;
@@ -405,7 +405,6 @@ h6 {
     border-radius: 5px;
     background: var(--bg-input);
     box-shadow: var(--shadow-box);
-    margin-bottom: 49px;
   }
 
   .todo:nth-child(1) {
@@ -439,6 +438,7 @@ h6 {
     padding: 16px 24px 16px 24px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    margin-bottom: 49px;
   }
   .todos-footer p {
     cursor: pointer;
