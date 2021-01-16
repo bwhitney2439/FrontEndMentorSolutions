@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Todo app</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="title-container">
+        <h1>Todo</h1>
+        <div class="theme-icon" onclick="changeTheme()"></div>
+      </div>
+
+      <div class="create-todo-container">
+        <input type="checkbox" id="toggle" />
+        <label class="checkradio" for="toggle"></label>
+        <input type="text" placeholder="Create a new todo…" />
+      </div>
+
+      <div class="todos">
+        <div class="todos-footer">
+          <p class="total-items">0 items left</p>
+          <ul>
+            <li>
+              <a onclick="filterAll(event)" class="active" href="#">All</a>
+            </li>
+            <li><a onclick="filterActive(event)" href="#">Active</a></li>
+            <li><a onclick="filterCompleted(event)" href="#">Completed</a></li>
+          </ul>
+          <p onclick="clearCompleted()">Clear Completed</p>
+        </div>
+      </div>
+      <div class="todos-footer-mobile">
+        <ul>
+          <li><a onclick="filterAll(event)" class="active" href="#">All</a></li>
+          <li><a onclick="filterActive(event)" href="#">Active</a></li>
+          <li><a onclick="filterCompleted(event)" href="#">Completed</a></li>
+        </ul>
+      </div>
+      <h6>Drag and drop to reorder list</h6>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
