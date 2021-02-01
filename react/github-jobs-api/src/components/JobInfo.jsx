@@ -1,5 +1,5 @@
 import { formatDistanceStrict } from "date-fns";
-import parse, { domToReact } from "html-react-parser";
+import parse from "html-react-parser";
 import React from "react";
 import styled from "styled-components";
 import BgPatternFooterMobile from "../assets/mobile/bg-pattern-detail-footer.svg";

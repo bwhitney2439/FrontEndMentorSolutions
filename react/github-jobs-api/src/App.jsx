@@ -6,6 +6,8 @@ import Card from "./components/Card";
 import Filter from "./components/Filter";
 import Header from "./components/Header";
 import JobInfo from "./components/JobInfo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Button = styled.button`
   width: 141px;
@@ -23,16 +25,38 @@ const Button = styled.button`
 
 const App = () => {
   const [jobs, setJobs] = useState([]);
-  const [visible, setVisible] = useState(12);
+  const [pages, setPages] = useState(1);
+  const [isLoading, setIsLoading] = useState("idle");
+  const [queryString, setQueryString] = useState("");
 
   useEffect(() => {
-    axios.get("/positions.json").then(({ data }) => {
-      setJobs(data);
-    });
-  }, []);
+    if (pages === 1) {
+      setIsLoading("idle");
+    } else {
+      setIsLoading("pending");
+    }
 
-  const handleVisible = () => {
-    setVisible((prevState) => prevState + 12);
+    axios
+      .get(`/positions.json?&page=${pages}${queryString}`)
+      .then(({ data }) => {
+        setJobs((prev) => [...prev, ...data]);
+
+        if (data.length < 50) {
+          setIsLoading("finished");
+        } else {
+          setIsLoading("resolved");
+        }
+      });
+  }, [pages, queryString]);
+
+  const handlePages = () => {
+    setPages((prevState) => prevState + 1);
+  };
+
+  const handleDescriptionSearch = (description) => {
+    setJobs([]);
+    setPages(1);
+    setQueryString(`&description=${description}`);
   };
 
   return (
@@ -53,23 +77,33 @@ const App = () => {
         )}
         <Route exact path="/">
           <div className="App">
-            <Filter />
-            {jobs.slice(0, visible).map((job, index) => {
+            <Filter handleDescriptionSearch={handleDescriptionSearch} />
+            {jobs.map((job, index) => {
               return <Card key={job.id} job={job} index={index} />;
             })}
 
-            {jobs.length !== 0 ? (
-              visible >= jobs.length ? null : (
-                <Button onClick={handleVisible}>Load More</Button>
-              )
-            ) : (
-              <h1
-                style={{
-                  textAlign: "center",
-                }}
-              >
-                Loading......
-              </h1>
+            {isLoading === "idle" ? (
+              <h2 style={{ textAlign: "center" }}>
+                <FontAwesomeIcon
+                  size="lg"
+                  icon={faSpinner}
+                  spin
+                  color="white"
+                />
+                {"  "}
+                Loading
+              </h2>
+            ) : isLoading === "finished" ? null : (
+              <Button disabled={isLoading === "pending"} onClick={handlePages}>
+                {isLoading === "resolved" ? (
+                  "Load More"
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faSpinner} spin color="white" />{" "}
+                    Loading
+                  </>
+                )}
+              </Button>
             )}
           </div>
         </Route>
