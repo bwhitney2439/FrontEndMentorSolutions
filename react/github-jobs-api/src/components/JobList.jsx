@@ -77,6 +77,7 @@ const JobList = () => {
 
     {
       getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
+      refetchOnWindowFocus: false,
     }
   );
 
