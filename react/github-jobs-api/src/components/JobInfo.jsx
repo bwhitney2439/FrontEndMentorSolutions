@@ -287,7 +287,7 @@ const JobInfo = () => {
 
   const { isLoading, data } = useQuery(["job", { jobId }], () =>
     axios
-      .get(`/positions/${jobId}.json`, {
+      .get(`${process.env.REACT_APP_BASEURL}/positions/${jobId}.json`, {
         params: {
           markdown: "on",
         },
