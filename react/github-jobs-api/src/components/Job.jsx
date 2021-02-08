@@ -65,7 +65,6 @@ const LogoContainer = styled.div`
   width: 50px;
   height: 50px;
   background-color: ${({ color }) => color};
-  // background-color: white;
   background-image: url("${({ company_logo }) => company_logo}");
   background-repeat: no-repeat;
   background-position: center center;
@@ -86,7 +85,7 @@ const Dot = styled.div`
   margin: 0 12px;
 `;
 
-const Card = ({
+const Job = ({
   job: { company_logo, created_at, type, title, company, location, id },
   index,
 }) => {
@@ -117,7 +116,9 @@ const Card = ({
 
   return (
     <CardContainer
-      onClick={() => history.push(`/${id}--${colors[indexCount]}`)}
+      onClick={() =>
+        history.push(`/${id}--${colors[indexCount].split("#")[1]}`)
+      }
     >
       <LogoContainer
         color={colors[indexCount]}
@@ -141,4 +142,4 @@ const Card = ({
   );
 };
 
-export default Card;
+export default Job;

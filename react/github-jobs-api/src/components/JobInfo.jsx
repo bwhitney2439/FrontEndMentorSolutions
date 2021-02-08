@@ -280,9 +280,11 @@ const Dot = styled.div`
 `;
 
 const JobInfo = () => {
-  const { jobId } = useParams();
+  const param = useParams();
 
-  console.log(jobId.split("--")[1]);
+  const jobId = param.jobId.split("--")[0];
+  const color = param.jobId.split("--")[1];
+
   const { isLoading, data } = useQuery(["job", { jobId }], () =>
     axios
       .get(`/positions/${jobId}.json`, {
@@ -357,7 +359,7 @@ const JobInfo = () => {
     <>
       <JobInfoHeader>
         <LogoContainer
-          color="transparent"
+          color={`#${color}`}
           company_logo={company_logo}
         ></LogoContainer>
         <JobInfoHeaderDetails>

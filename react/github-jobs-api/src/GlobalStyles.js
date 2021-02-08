@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
-import BackgroundPatternHeader from "../src/assets/mobile/bg-pattern-header.svg";
+import BackgroundPatternHeaderMobile from "../src/assets/mobile/bg-pattern-header.svg";
+import BackgroundPatternHeaderDesktop from "../src/assets/desktop/bg-pattern-header.svg";
+import BackgroundPatternHeaderTablet from "../src/assets/tablet/bg-pattern-header.svg";
 import { theme } from "./theme";
 
 const GlobalStyles = createGlobalStyle`
@@ -23,8 +25,19 @@ body {
   line-height: 1.5;
   font-family: "Kumbh Sans", sans-serif;
   font-size: 16px;
-  background: ${theme.colors.background} url(${BackgroundPatternHeader}) no-repeat;
+  background: ${theme.colors.background} url(${BackgroundPatternHeaderMobile}) no-repeat top;
   background-size: 100% 136px;
+  
+  
+  @media (min-width: 768px) {
+      background: ${theme.colors.background} url(${BackgroundPatternHeaderTablet}) no-repeat;
+      background-size: 100% 160px;
+    }
+    @media (min-width: 1440px) {
+        background: ${theme.colors.background} url(${BackgroundPatternHeaderDesktop}) no-repeat;
+        background-size: 100% 162px;
+    }
+
 }
 
 input,

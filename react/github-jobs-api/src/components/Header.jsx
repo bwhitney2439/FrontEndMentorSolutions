@@ -13,9 +13,11 @@ const HeaderContainer = styled.div`
 
   @media (min-width: 768px) {
     width: 689px;
+    margin: 42px auto 0 auto;
   }
   @media (min-width: 1440px) {
     width: 1110px;
+    margin: 45px auto 0 auto;
   }
 `;
 

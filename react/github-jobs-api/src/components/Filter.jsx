@@ -11,11 +11,9 @@ import { theme } from "../theme";
 
 const FilterForm = styled.form`
   position: relative;
-  margin: 32px 24px 57px 24px;
+  margin: 32px auto 57px auto;
   height: 80px;
   width: 327px;
-  margin-left: auto;
-  margin-right: auto;
   background: ${theme.colors.cardBackground};
   border-radius: 6px;
   display: flex;
@@ -33,10 +31,12 @@ const FilterForm = styled.form`
   @media (min-width: 768px) {
     padding: 0;
     width: 689px;
+    margin: 46px auto 70px auto;
   }
   @media (min-width: 1440px) {
     padding: 0;
     width: 1110px;
+    margin: 44px auto 105px auto;
   }
 `;
 
@@ -231,24 +231,22 @@ const LocationSearchInput = styled.div`
 const Filter = ({ setFilter, setFilterOptions }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFullTime, setIsFullTime] = useState(false);
-  const { useModal, type } = useMedia(
+  const { type } = useMedia(
     // Media queries
     ["(min-width: 1440px)", "(min-width: 768px)", "(min-width: 375px)"],
     // (relates to above media queries by array index)
     [
       {
         type: "desktop",
-        useModal: false,
       },
       {
         type: "tablet",
-        useModal: false,
       },
 
-      { useModal: true, type: "mobile" },
+      { type: "mobile" },
     ],
     // Default object
-    { useModal: true, type: "mobile" }
+    { type: "mobile" }
   );
 
   return (

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Card from "./Card";
-import { useMedia } from "../hooks/useMedia";
+import Job from "./Job";
 import axios from "axios";
 import { useState } from "react";
 import Filter from "./Filter";
@@ -10,11 +9,9 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useInfiniteQuery } from "react-query";
 import { theme } from "../theme";
 
-const CardsContainer = styled.div`
-  display: -webkit-flex;
+const JobsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   width: 327px;
   margin-left: auto;
@@ -46,7 +43,7 @@ const Button = styled.button`
   }
 `;
 
-const CardList = () => {
+const JobList = () => {
   const [filterOptions, setFilterOptions] = useState({
     description: "",
     fullTime: false,
@@ -55,7 +52,6 @@ const CardList = () => {
 
   const {
     data,
-    error,
     status,
     fetchNextPage,
     hasNextPage,
@@ -96,17 +92,17 @@ const CardList = () => {
           Loading
         </h2>
       ) : data?.pages[0].data.length > 0 ? (
-        <CardsContainer>
+        <JobsContainer>
           {data.pages.map((page, index) => {
             return (
               <React.Fragment key={index}>
                 {page.data.map((job, index) => (
-                  <Card key={job.id} job={job} index={index} />
+                  <Job key={job.id} job={job} index={index} />
                 ))}
               </React.Fragment>
             );
           })}
-        </CardsContainer>
+        </JobsContainer>
       ) : (
         <h2 style={{ textAlign: "center" }}>Nothing returned</h2>
       )}
@@ -125,4 +121,4 @@ const CardList = () => {
   );
 };
 
-export default CardList;
+export default JobList;
