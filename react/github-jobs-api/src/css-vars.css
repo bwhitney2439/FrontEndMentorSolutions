@@ -1,0 +1,18 @@
+body[data-theme="light"] {
+  --colors-background: #f2f2f2;
+  --colors-card-background: #ffffff;
+  --colors-h2: #19202d;
+  --colors-p: #6e8098;
+  --colors-checkbox-background: #19202d;
+  --colors-input: #19202d;
+  --colors-icon: #6e8098;
+}
+body[data-theme="dark"] {
+  --colors-background: #121721;
+  --colors-card-background: #19202d;
+  --colors-h2: #ffffff;
+  --colors-p: #6e8098;
+  --colors-checkbox-background: #ffffff;
+  --colors-input: #ffffff;
+  --colors-icon: #ffffff;
+}

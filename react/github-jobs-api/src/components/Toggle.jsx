@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const ToggleButton = styled.input`
@@ -30,10 +30,21 @@ const ToggleButton = styled.input`
 `;
 
 const Toggle = (props) => {
+  const [theme, setTheme] = React.useState("light");
+  const nextTheme = theme === "light" ? "dark" : "light";
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
+
   return (
-    <>
-      <ToggleButton {...props} type="checkbox" id="checkbox" />
-    </>
+    <ToggleButton
+      checked={theme === "dark"}
+      onChange={() => setTheme(nextTheme)}
+      {...props}
+      type="checkbox"
+      id="checkbox"
+    />
   );
 };
 

@@ -1,31 +1,46 @@
 import React, { useState } from "react";
-import IconFilter from "../assets/mobile/icon-filter.svg";
-import IconSearch from "../assets/desktop/icon-search.svg";
-import IconLocation from "../assets/desktop/icon-location.svg";
+// import IconSearch from "../assets/desktop/icon-search.svg";
+// import IconLocation from "../assets/desktop/icon-location.svg";
+import { ReactComponent as IconFilter } from "../assets/desktop/icon-filter.svg";
+import { ReactComponent as IconSearch } from "../assets/desktop/icon-search.svg";
+import { ReactComponent as IconLocation } from "../assets/desktop/icon-location.svg";
 import styled from "styled-components";
 import { Modal } from "./Modal";
 import { useMedia } from "../hooks/useMedia";
+import { theme } from "../theme";
 
-const FilterContainer = styled.form`
+const FilterForm = styled.form`
+  position: relative;
   margin: 32px 24px 57px 24px;
   height: 80px;
-  background: #19202d;
+  width: 327px;
+  margin-left: auto;
+  margin-right: auto;
+  background: ${theme.colors.cardBackground};
   border-radius: 6px;
   display: flex;
   align-items: center;
-  padding: 16px 16px 16px 24px;
-
-  & input {
+  padding: 24px;
+  input[type="text"] {
     width: 100%;
     background: transparent;
     border: none;
     outline: none;
-    color: white;
+    color: ${theme.colors.input};
     opacity: 0.5;
+  }
+
+  @media (min-width: 768px) {
+    padding: 0;
+    width: 689px;
+  }
+  @media (min-width: 1440px) {
+    padding: 0;
+    width: 1110px;
   }
 `;
 
-const SearchContainer = styled.button`
+const SearchButton = styled.button`
   display: flex;
   border: none;
   outline: none;
@@ -36,6 +51,14 @@ const SearchContainer = styled.button`
   min-width: 48px;
   background: #5964e0;
   margin-left: 24px;
+
+  &:hover {
+    background: #939bf4;
+  }
+
+  svg {
+    fill: white;
+  }
 `;
 
 const LocationInputContainer = styled.div`
@@ -47,14 +70,20 @@ const LocationInputContainer = styled.div`
     background: transparent;
     outline: none;
     border: none;
-    color: #ffffff;
+    color: ${theme.colors.input};
     mix-blend-mode: normal;
-    opacity: 0.5;
+    // opacity: 0.5;
     &::placeholder {
-      color: #ffffff;
+      color: ${theme.colors.input};
       mix-blend-mode: normal;
       opacity: 0.5;
     }
+  }
+
+  svg {
+    width: 17px;
+    height: 24px;
+    fill: #5964e0;
   }
 `;
 
@@ -70,26 +99,32 @@ const Divider = styled.div`
 
 const CheckboxContainer = styled.div`
   display: flex;
+  flex: 1;
   align-items: center;
   padding: 24px;
-
   p {
     margin-left: 16px;
-    color: #ffffff;
+    color: ${theme.colors.p};
     font-weight: bold;
+  }
+
+  @media (min-width: 768px) {
+    padding: 0 16px 0 20px;
+  }
+  @media (min-width: 1440px) {
+    padding: 0 16px 0 20px;
   }
 `;
 
 const Checkbox = styled.input`
   position: relative;
-
   width: 24px;
   height: 24px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   outline: none;
-  background: #ffffff;
+  background: ${theme.colors.checkboxBackground};
   border: none;
   border-radius: 3px;
   opacity: 0.1;
@@ -136,54 +171,167 @@ const Button = styled.button`
   &:hover {
     background: #939bf4;
   }
+
+  @media (min-width: 768px) {
+    width: 80px;
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  @media (min-width: 1440px) {
+    width: 123px;
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+  }
 `;
 
-const Filter = ({ handleDescriptionSearch }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const VerticalDivider = styled.div`
+  width: 1px;
+  height: 100%;
+  background: #6e8098;
+  opacity: 0.2;
+`;
 
-  const { useModal } = useMedia(
+const TitleSearchInput = styled.div`
+  display: flex;
+  padding: 24px;
+  width: ${({ width }) => width};
+  svg {
+    margin-right: 16px;
+    fill: #5964e0;
+  }
+
+  @media (min-width: 768px) {
+    width: 222px;
+  }
+  @media (min-width: 1440px) {
+    width: 463px;
+  }
+`;
+const LocationSearchInput = styled.div`
+  display: flex;
+  padding: 24px;
+  width: ${({ width }) => width};
+  svg {
+    width: 17px;
+    height: 24px;
+    margin-right: 16px;
+    fill: #5964e0;
+  }
+
+  @media (min-width: 768px) {
+    width: 213px;
+  }
+  @media (min-width: 1440px) {
+    width: 300px;
+  }
+`;
+
+const Filter = ({ setFilter, setFilterOptions }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isFullTime, setIsFullTime] = useState(false);
+  const { useModal, type } = useMedia(
     // Media queries
     ["(min-width: 1440px)", "(min-width: 768px)", "(min-width: 375px)"],
-    // Column counts (relates to above media queries by array index)
-    [{ useModal: false }, { useModal: false }, { useModal: true }],
+    // (relates to above media queries by array index)
+    [
+      {
+        type: "desktop",
+        useModal: false,
+      },
+      {
+        type: "tablet",
+        useModal: false,
+      },
+
+      { useModal: true, type: "mobile" },
+    ],
     // Default object
-    { useModal: true }
+    { useModal: true, type: "mobile" }
   );
 
   return (
     <>
-      <FilterContainer
+      <FilterForm
         onSubmit={(event) => {
           event.preventDefault();
-          console.log(event.target[0].value);
-          handleDescriptionSearch(event.target[0].value);
+
+          setFilterOptions((prev) => ({
+            ...prev,
+            description: event.target[0].value,
+            location: event.target[1].value,
+            fullTime: event.target[1].value,
+          }));
         }}
       >
-        <input
-          style={{ opacity: "0.5" }}
-          type="text"
-          placeholder="Enter job description..."
-        />
-        <img
-          onClick={useModal ? () => setIsOpen(true) : null}
-          src={IconFilter}
-          alt=""
-        />
-        <SearchContainer type="submit">
-          <img src={IconSearch} alt="" width="20px" height="20px" />
-        </SearchContainer>
-      </FilterContainer>
-      <Modal open={useModal ? isOpen : false} onClose={() => setIsOpen(false)}>
-        <LocationInputContainer>
-          <img src={IconLocation} alt="" srcset="" />
-          <input placeholder="Filter by location..." type="text" />
-        </LocationInputContainer>
-        <Divider className="divider" />
-        <CheckboxContainer>
-          <Checkbox type="checkbox" id="checkbox" />
-          <p>Full Time Only</p>
-        </CheckboxContainer>
-        <Button>Search</Button>
+        {type !== "mobile" ? (
+          <>
+            <TitleSearchInput>
+              <IconSearch />
+              <input type="text" placeholder="Filter by title..." />
+            </TitleSearchInput>
+            <VerticalDivider />
+            <LocationSearchInput>
+              <IconLocation />
+              <input type="text" placeholder="Filter by location" />
+            </LocationSearchInput>
+            <VerticalDivider />
+            <CheckboxContainer>
+              <Checkbox
+                type="checkbox"
+                id="checkbox"
+                checked={isFullTime}
+                onChange={() => setIsFullTime((prev) => !prev)}
+              />{" "}
+              <p>{type === "tablet" ? "Full Time" : "Full Time Only"}</p>
+              <Button type="submit">Search</Button>
+            </CheckboxContainer>
+          </>
+        ) : (
+          <>
+            <input type="text" placeholder="Enter job description..." />
+            <IconFilter
+              style={{ fill: theme.colors.icon }}
+              onClick={() => setIsOpen(true)}
+            />
+            <SearchButton type="submit">
+              <IconSearch />
+            </SearchButton>{" "}
+          </>
+        )}
+      </FilterForm>
+      <Modal
+        open={type === "mobile" ? isOpen : false}
+        onClose={() => setIsOpen(false)}
+      >
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            setFilterOptions((prev) => ({
+              ...prev,
+              location: event.target[0].value,
+              fullTime: event.target[1].checked,
+            }));
+            setIsOpen(false);
+          }}
+        >
+          <LocationInputContainer>
+            <IconLocation />
+            <input placeholder="Filter by location..." type="text" />
+          </LocationInputContainer>
+          <Divider className="divider" />
+          <CheckboxContainer>
+            <Checkbox
+              type="checkbox"
+              id="checkbox"
+              checked={isFullTime}
+              onChange={() => setIsFullTime((prev) => !prev)}
+            />{" "}
+            <p>Full Time Only</p>
+          </CheckboxContainer>
+          <Button type="submit">Search</Button>
+        </form>
       </Modal>
     </>
   );

@@ -10,6 +10,13 @@ const HeaderContainer = styled.div`
   align-items: center;
   width: 327px;
   margin: 32px auto 0 auto;
+
+  @media (min-width: 768px) {
+    width: 689px;
+  }
+  @media (min-width: 1440px) {
+    width: 1110px;
+  }
 `;
 
 const ToggleContainer = styled.div`

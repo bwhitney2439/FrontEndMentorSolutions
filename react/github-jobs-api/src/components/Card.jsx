@@ -2,16 +2,14 @@ import { formatDistanceStrict } from "date-fns";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { theme } from "../theme";
 
 const CardContainer = styled.div`
   position: relative;
-
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 49px;
-  width: 327px;
+  width: 100%;
   height: 228px;
-  background: #19202d;
+  background: ${theme.colors.cardBackground};
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -27,6 +25,19 @@ const CardContainer = styled.div`
     li {
       display: flex;
       align-items: center;
+
+      h2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+
+        &:hover {
+          color: #6e8098;
+        }
+      }
     }
 
     li:nth-child(1) {
@@ -40,16 +51,26 @@ const CardContainer = styled.div`
   & small {
     text-align: left;
   }
+
+  @media (min-width: 768px) {
+    width: 339px;
+  }
+  @media (min-width: 1440px) {
+    width: 350px;
+  }
 `;
 
 const LogoContainer = styled.div`
   position: absolute;
   width: 50px;
   height: 50px;
-
-  background: ${(props) => props.color};
+  background-color: ${({ color }) => color};
+  // background-color: white;
+  background-image: url("${({ company_logo }) => company_logo}");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 80%;
   border-radius: 15px;
-  padding: 16px;
   top: -25px;
   left: 32px;
   display: flex;
@@ -95,10 +116,13 @@ const Card = ({
   } ago`;
 
   return (
-    <CardContainer onClick={() => history.push(`/${id}`)}>
-      <LogoContainer color={colors[indexCount]}>
-        <img src={company_logo} alt="" />
-      </LogoContainer>
+    <CardContainer
+      onClick={() => history.push(`/${id}--${colors[indexCount]}`)}
+    >
+      <LogoContainer
+        color={colors[indexCount]}
+        company_logo={company_logo}
+      ></LogoContainer>
       <ul>
         <li>
           <p>{formattedDateDistance}</p>

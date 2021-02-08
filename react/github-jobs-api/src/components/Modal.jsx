@@ -1,16 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDom from "react-dom";
 import styled from "styled-components";
-
-const MODAL_STYLES = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "#FFF",
-  padding: "50px",
-  zIndex: 1000,
-};
+import { theme } from "../theme";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -32,7 +23,7 @@ const FilterContainer = styled.div`
   zindex: 1100;
   width: 327px;
   height: 217px;
-  background: #19202d;
+  background: ${theme.colors.cardBackground};
   border-radius: 6px;
 `;
 
