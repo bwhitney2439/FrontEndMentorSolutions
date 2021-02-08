@@ -59,14 +59,17 @@ const JobList = () => {
   } = useInfiniteQuery(
     ["jobs", { filterOptions }],
     async ({ pageParam = 0 }) => {
-      const { data: jobs } = await axios.get(`/positions.json`, {
-        params: {
-          page: pageParam,
-          description: filterOptions.description,
-          full_time: filterOptions.fullTime ? "on" : "off",
-          location: filterOptions.location,
-        },
-      });
+      const { data: jobs } = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/positions.json`,
+        {
+          params: {
+            page: pageParam,
+            description: filterOptions.description,
+            full_time: filterOptions.fullTime ? "on" : "off",
+            location: filterOptions.location,
+          },
+        }
+      );
 
       const nextPage = jobs.length === 50 ? pageParam + 1 : null;
       return { data: jobs, nextPage };
