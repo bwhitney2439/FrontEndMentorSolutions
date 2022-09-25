@@ -1,23 +1,25 @@
+import AppShell from "./components/AppShell";
+import Header from "./components/Header";
+import Sidebar from "./components/SIdebar";
+
 function App() {
   return (
-    <div className="h-screen flex flex-col">
-      {/* Header */}
-      <header className="flex w-full fixed">
-        <div className="w-[300px] h-[97px] bg-gray-dark border-b-[1px] border-b-lines-dark"></div>
-        <div className="flex-1 h-[97px] bg-gray-dark border-b-lines-dark border-b-[1px] flex items-center px-6">
-          <h1 className="text-white">Platform Launch</h1>
-        </div>
-      </header>
-
-      {/* Sidebar */}
-      <aside className="fixed z-20 h-full top-0 flex flex-col w-[300px]">
-        <div className="flex-1 flex flex-col min-h-0 bg-gray-dark pt-0 border-r-[1px] border-r-lines-dark">
-          <img src="" alt="" />
-        </div>
-      </aside>
-
-      <div className="bg-very-dark-grey flex-1 ml-[300px] mt-[97px]"></div>
-    </div>
+    <AppShell header={Header} sidebar={Sidebar}>
+      <div className="bg-very-dark-grey flex-1 sm:ml-[300px] mt-[97px]">
+        <main className="h-full">
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center px-8">
+              <h2 className="text-medium-grey text-center ">
+                This board is empty. Create a new column to get started.
+              </h2>
+              <button className="text-white w-[174px] h-[48px] bg-main-purple hover:bg-main-purple-hover rounded-3xl mt-6">
+                + Add New Column
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </AppShell>
   );
 }
 
