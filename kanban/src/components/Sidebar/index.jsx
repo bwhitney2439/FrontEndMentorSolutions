@@ -4,7 +4,7 @@ import BoardIcon from "../Icons/BoardIcon";
 import Toggle from "../Toggle";
 import LightThemeIcon from "../Icons/LightThemeIcon";
 import DarkThemeIcon from "../Icons/DarkThemeIcon";
-import HideSidebarIcon from "../Icons/HideSidebarIcon";
+import HideSidebarIcon from ".. /Icons/HideSidebarIcon";
 
 const Sidebar = () => {
   return (
