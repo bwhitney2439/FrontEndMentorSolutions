@@ -1,55 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import logoLight from "../../assets/logo-light.svg";
+import logoDark from "../../assets/logo-dark.svg";
 import BoardIcon from "../Icons/BoardIcon";
 import Toggle from "../Toggle";
 import LightThemeIcon from "../Icons/LightThemeIcon";
 import DarkThemeIcon from "../Icons/DarkThemeIcon";
-import HideSidebarIcon from ".. /Icons/HideSidebarIcon";
+import HideSidebarIcon from "../Icons/HideSidebarIcon";
 
-const Sidebar = () => {
+const Sidebar = ({
+  data,
+  toggleSidebar,
+  settoggleSidebar,
+  isDarkTheme,
+  toggleTheme,
+}) => {
   return (
-    <aside className="hidden fixed z-20 h-full top-0 sm:flex flex-col w-[300px]">
-      <div className="flex-1 flex flex-col min-h-0 bg-gray-dark pt-0 border-r-[1px] border-r-lines-dark">
+    <aside
+      className={`hidden fixed z-20 h-full top-0 sm:flex flex-col w-[300px] transition-all ${
+        toggleSidebar ? "-translate-x-full" : ""
+      }`}
+    >
+      <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-gray-dark pt-0 border-r-[1px] border-r-lines-light dark:border-r-lines-dark">
         <div className="ml-8 mt-8 ">
-          <img src={logoLight} alt="" />
+          <img src={isDarkTheme ? logoLight : logoDark} alt="" />
         </div>
         <div className="mt-14 mr-6">
           <p className="text-xs  ml-8 tracking-[2.4px] text-medium-grey mb-[19px]">
             ALL BOARDS
           </p>
 
-          <div className="flex items-center pl-8 pt-[14px] pb-[15px] bg-main-purple hover:bg-main-purple-hover rounded-r-[100px] cursor-pointer">
-            <BoardIcon className="fill-white" />
-            <p className="text-white ml-4">Platform Launch</p>
-          </div>
-
-          <div className="flex group items-center pl-8 pt-[14px] pb-[15px] hover:bg-white rounded-r-[100px] cursor-pointer">
-            <BoardIcon className="fill-medium-grey group-hover:fill-main-purple" />
-            <p className="text-medium-grey ml-4 group-hover:text-main-purple">
-              Marketing Plan
-            </p>
-          </div>
-
-          <div className="flex group items-center pl-8 pt-[14px] pb-[15px] hover:bg-white rounded-r-[100px] cursor-pointer">
-            <BoardIcon className="fill-medium-grey group-hover:fill-main-purple" />
-            <p className="text-medium-grey ml-4 group-hover:text-main-purple">
-              Roadmap
-            </p>
-          </div>
+          {data.boards.map(({ name }, index) => {
+            return (
+              <div
+                className={`flex items-center pl-8 pt-[14px] pb-[15px] ${
+                  index === 0 ? "bg-main-purple" : null
+                } dark:hover:bg-white hover:bg-main-purple hover:bg-opacity-10 hover:text-main-purple rounded-r-[100px] cursor-pointer group`}
+              >
+                <BoardIcon
+                  className={`dark:fill-white  group-hover:fill-main-purple ${
+                    index === 0 ? "fill-white" : "fill-medium-grey"
+                  }   `}
+                />
+                <h3
+                  className={`dark:text-white ${
+                    index === 0 ? "text-white" : "text-medium-grey"
+                  }  group-hover:text-main-purple ml-4`}
+                >
+                  {name}
+                </h3>
+              </div>
+            );
+          })}
 
           <div className="flex items-center pl-8 pt-[14px] pb-[15px] rounded-r-[100px]">
             <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
-            <p className="ml-4 text-main-purple">+ Create New Board</p>
+            <h3 className="ml-4 text-main-purple">+ Create New Board</h3>
           </div>
         </div>
 
-        <div className="mt-auto flex py-[14px] justify-center items-center mx-6 bg-very-dark-grey rounded-md">
+        <div className="mt-auto flex py-[14px] justify-center items-center mx-6 bg-light-grey dark:bg-very-dark-grey rounded-md">
           <LightThemeIcon />
-          <Toggle className="mx-6" />
+          <Toggle
+            className="mx-6"
+            toggle={isDarkTheme}
+            setToggle={toggleTheme}
+          />
           <DarkThemeIcon />
         </div>
 
-        <div className="flex group items-center pl-8 pt-[14px] pb-[15px] rounded-r-[100px] mb-8 cursor-pointer mr-6 hover:bg-white mt-2">
+        <div
+          onClick={() => settoggleSidebar((prev) => !prev)}
+          className="flex items-center pl-8 pt-[14px] pb-[15px] mb-8 dark:hover:bg-white hover:bg-main-purple hover:bg-opacity-10 hover:text-main-purple rounded-r-[100px] cursor-pointer group mr-6 mt-2"
+        >
           <HideSidebarIcon className="fill-medium-grey group-hover:fill-main-purple" />
           <h3 className="ml-[15px] text-medium-grey group-hover:text-main-purple">
             Hide Sidebar

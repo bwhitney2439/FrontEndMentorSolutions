@@ -1,13 +1,15 @@
 import React from "react";
 
-const AppShell = ({ children, header, sidebar, ...rest }) => {
+const AppShell = ({ children, header, sidebar, className, ...rest }) => {
   return (
-    <div className="h-screen flex flex-col bg-very-dark-grey">
+    <div
+      className={`h-screen flex flex-col dark:bg-very-dark-grey ${className}`}
+    >
       {/* Header */}
-      {header()}
+      {header}
 
       {/* Sidebar */}
-      {sidebar()}
+      {sidebar}
 
       {/* Main Content */}
       {children}
