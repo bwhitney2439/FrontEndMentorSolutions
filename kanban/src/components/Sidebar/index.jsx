@@ -32,6 +32,7 @@ const Sidebar = ({
           {data.boards.map(({ name }, index) => {
             return (
               <div
+                key={name}
                 className={`flex items-center pl-8 pt-[14px] pb-[15px] ${
                   index === 0 ? "bg-main-purple" : null
                 } dark:hover:bg-white hover:bg-main-purple hover:bg-opacity-10 hover:text-main-purple rounded-r-[100px] cursor-pointer group`}

@@ -11,12 +11,8 @@
 
   }
 
-  .toggle {
-    -webkit-appearance: none
-  }
-/* 
-  body {
-    @apply dark:bg-very-dark-grey 
+  /* body {
+    @apply bg-very-dark-grey 
   } */
   h1 {
     @apply font-sans not-italic font-bold text-2xl text-[#000112] dark:text-white;
@@ -25,10 +21,10 @@
     @apply font-sans not-italic font-bold text-lg text-[#000112] dark:text-white;
   }
   h3 {
-    @apply font-sans not-italic font-bold text-base text-[#000112] dark:text-white;
+    @apply font-sans not-italic font-bold text-[15px] leading-[19px] text-[#000112] dark:text-white;
   }
   h4 {
-    @apply font-sans not-italic font-bold text-xs text-[#828FA3] dark:text-white;
+    @apply font-sans not-italic font-bold text-xs dark:text-[#828FA3];
   }
 
   p {

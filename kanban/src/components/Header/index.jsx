@@ -17,7 +17,7 @@ const Header = ({ setShow, toggleSidebar, isDarkTheme }) => {
           <img src={isDarkTheme ? logoLight : logoDark} alt="" />
         </div>
       </div>
-      <div className="flex-1 h-16 sm:h-[81px] lg:h-[97px] dark:bg-gray-dark border-b-lines-light dark:border-b-lines-dark border-b-[1px] flex items-center px-4 sm:px-6">
+      <div className="flex-1 h-16 sm:h-[81px] lg:h-[97px] bg-white dark:bg-gray-dark border-b-lines-light dark:border-b-lines-dark border-b-[1px] flex items-center px-4 sm:px-6">
         <img src={logoMobile} alt="" className="sm:hidden mr-4" />
         <div className="flex items-center">
           <button
