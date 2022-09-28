@@ -13,6 +13,8 @@ const Sidebar = ({
   settoggleSidebar,
   isDarkTheme,
   toggleTheme,
+  setSelectedBoard,
+  selectedBoard,
 }) => {
   return (
     <aside
@@ -29,22 +31,29 @@ const Sidebar = ({
             ALL BOARDS
           </p>
 
-          {data.boards.map(({ name }, index) => {
+          {data.boards.map((board, index) => {
+            const { name } = board;
+
             return (
               <div
+                onClick={() => setSelectedBoard(board)}
                 key={name}
                 className={`flex items-center pl-8 pt-[14px] pb-[15px] ${
-                  index === 0 ? "bg-main-purple" : null
+                  selectedBoard.name === name ? "bg-main-purple" : null
                 } dark:hover:bg-white hover:bg-main-purple hover:bg-opacity-10 hover:text-main-purple rounded-r-[100px] cursor-pointer group`}
               >
                 <BoardIcon
                   className={`dark:fill-white  group-hover:fill-main-purple ${
-                    index === 0 ? "fill-white" : "fill-medium-grey"
+                    selectedBoard.name === name
+                      ? "fill-white"
+                      : "fill-medium-grey"
                   }   `}
                 />
                 <h3
                   className={`dark:text-white ${
-                    index === 0 ? "text-white" : "text-medium-grey"
+                    selectedBoard.name === name
+                      ? "text-white"
+                      : "text-medium-grey"
                   }  group-hover:text-main-purple ml-4`}
                 >
                   {name}
@@ -55,7 +64,9 @@ const Sidebar = ({
 
           <div className="flex items-center pl-8 pt-[14px] pb-[15px] rounded-r-[100px]">
             <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
-            <h3 className="ml-4 text-main-purple">+ Create New Board</h3>
+            <h3 className="ml-4 dark:text-main-purple text-main-purple">
+              + Create New Board
+            </h3>
           </div>
         </div>
 

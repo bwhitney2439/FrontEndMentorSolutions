@@ -7,7 +7,7 @@ import Sidebar from "./components/SIdebar";
 import useLocalStorage from "./hooks/useLocalStorage";
 import data from "./data.json";
 import MobileSidebar from "./components/MobileSidebar";
-import { ToastContext } from "flowbite-react/lib/esm/components/Toast/ToastContext";
+import chevronDown from "./assets/icon-chevron-down.svg";
 const getInitialState = () => {
   if (
     localStorage.darkTheme === "dark" ||
@@ -39,10 +39,10 @@ function App() {
   );
 
   const [toggleSidebar, settoggleSidebar] = useState(false);
-  const [selectedBoard, setSelectedBoard] = useState(0);
-
-  const [selectedTask, setSelectedTask] = useState(null);
   const [toggleTaskModal, setToggleTaskModal] = useState(false);
+
+  const [selectedBoard, setSelectedBoard] = useState(kanBanData.boards[0]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const toggleTheme = () => {
     setDarkTheme((prevValue) => !prevValue);
@@ -53,7 +53,72 @@ function App() {
     setToggleTaskModal(true);
   };
 
-  console.log(selectedTask);
+  const handleSubTaskOnChange = (subtask) => {
+    const updatedKanBanData = kanBanData.boards.map((board) => {
+      const newColums = board.columns.map((column) => {
+        const newTasks = column.tasks.map((task) => {
+          const newElements = task.subtasks.map((element) => {
+            if (element.title === subtask.title) {
+              return {
+                ...element,
+                isCompleted: !subtask.isCompleted,
+              };
+            }
+            return {
+              ...element,
+            };
+          });
+
+          return { ...task, subtasks: newElements };
+        });
+
+        return { ...column, tasks: newTasks };
+      });
+
+      return { ...board, columns: newColums };
+    });
+
+    setKanBanData({ boards: updatedKanBanData });
+  };
+
+  const handleTaskStatusOnChange = (event) => {
+    const updatedKanBanData = kanBanData.boards.map((board) => {
+      const newColums = board.columns.map((column) => {
+        const newTasks = column.tasks.map((task) => {
+          if (task.title === selectedTask.title) {
+            return { ...task, status: event.target.value };
+          }
+          return { ...task };
+        });
+
+        return { ...column, tasks: newTasks };
+      });
+
+      return { ...board, columns: newColums };
+    });
+
+    setKanBanData({ boards: updatedKanBanData });
+  };
+
+  const selectedBoardData = kanBanData.boards.find(
+    (board) => board.name === selectedBoard.name
+  );
+
+  const selectedTaskData = selectedBoardData.columns.reduce(
+    (prev, curr) => {
+      const foundTask = curr.tasks.find(
+        (task) => task?.title === selectedTask?.title
+      );
+
+      return foundTask ?? prev;
+    },
+    {
+      title: "",
+      description: "",
+      status: "",
+      subtasks: [],
+    }
+  );
 
   return (
     <div className={`${isDarkTheme && "dark"}`}>
@@ -63,6 +128,7 @@ function App() {
             setShow={setShow}
             toggleSidebar={toggleSidebar}
             isDarkTheme={isDarkTheme}
+            selectedBoard={selectedBoard}
           />
         }
         sidebar={
@@ -72,6 +138,8 @@ function App() {
             toggleTheme={toggleTheme}
             toggleSidebar={toggleSidebar}
             settoggleSidebar={settoggleSidebar}
+            setSelectedBoard={setSelectedBoard}
+            selectedBoard={selectedBoard}
           />
         }
       >
@@ -83,9 +151,9 @@ function App() {
           <main className="h-full">
             {kanBanData.boards.length > 0 ? (
               <div className="flex pt-6 pl-3 overflow-x-scroll h-full">
-                {kanBanData.boards[0].columns.map((column) => {
+                {selectedBoardData.columns.map((column) => {
                   return (
-                    <div className="mx-3" key={column.name}>
+                    <div className="mx-3 min-w-[280px]" key={column.name}>
                       <div className="flex items-center">
                         <div className="w-[15px] h-[15px] mr-3 rounded-full bg-main-purple" />
                         <h4 className="text-medium-grey tracking-[2.5px] uppercase">
@@ -105,11 +173,21 @@ function App() {
                           >
                             <h3 className="mb-2">{task.title}</h3>
                             <p className="text-xs dark:text-medium-grey">
-                              0 of {task.subtasks.length} subtasks
+                              {
+                                task?.subtasks.filter(
+                                  (subtask) => subtask.isCompleted === true
+                                ).length
+                              }{" "}
+                              of {task.subtasks.length} subtasks
                             </p>
                           </div>
                         );
                       })}
+                      <div className="dark:bg-gray-dark px-4 py-6 rounded-lg my-6  min-w-[280px] max-w-[280px] shadow-[0_4px_6px_0px_rgba(54, 78, 126, 0.101545)] cursor-pointer">
+                        <h2 className="dark:text-medium-grey text-medium-grey text-center">
+                          + New Task
+                        </h2>
+                      </div>
                     </div>
                   );
                 })}
@@ -152,57 +230,60 @@ function App() {
         <Modal
           show={toggleTaskModal}
           onClose={() => setToggleTaskModal(false)}
-          className="z-50"
+          className="mx-4"
         >
           <div className="px-6 py-2">
-            <h2 className="mb-6">{selectedTask?.title}</h2>
+            <h2 className="mb-6">{selectedTaskData?.title}</h2>
             <p className="dark:text-medium-grey text-[13px] leading-[23px] mb-6">
-              {selectedTask?.description}
+              {selectedTaskData?.description}
             </p>
 
             <p className="mb-4">
               Subtasks (
               {
-                selectedTask?.subtasks.filter(
+                selectedTaskData?.subtasks?.filter(
                   (subtask) => subtask.isCompleted === true
                 ).length
               }{" "}
-              of {selectedTask?.subtasks.length})
+              of {selectedTaskData?.subtasks?.length})
             </p>
-            {selectedTask?.subtasks.map((subtask) => {
+            {selectedTaskData?.subtasks.map((subtask) => {
               return (
-                <div className="flex items-center dark:bg-very-dark-grey rounded-[4px] p-4">
+                <div
+                  key={subtask.title}
+                  className="flex items-center dark:bg-very-dark-grey rounded-[4px] p-4 mb-2"
+                >
                   <input
                     type="checkbox"
                     checked={subtask.isCompleted}
-                    onChange={() => {
-                      const updatedKanBanData = { ...kanBanData }.boards.map(
-                        (board) => {
-                          return board.columns.map((column) => {
-                            return column.tasks.map((task) => {
-                              return task.subtasks.map((element) => {
-                                if (element.title === subtask.title) {
-                                  return {
-                                    ...element,
-                                    isCompleted: !subtask.isCompleted,
-                                  };
-                                }
-                                return {
-                                  ...element,
-                                };
-                              });
-                            });
-                          });
-                        }
-                      );
-
-                      console.log(updatedKanBanData);
-                    }}
+                    onChange={() => handleSubTaskOnChange(subtask)}
+                    className="peer"
                   />
-                  <p className="ml-4">{subtask.title}</p>
+                  <p className="ml-4 peer-checked:text-medium-grey peer-checked:line-through">
+                    {subtask.title}
+                  </p>
                 </div>
               );
             })}
+            <p className="text-xs mb-2 mt-6">Current Status</p>
+            <select
+              value={selectedTaskData?.status}
+              defaultValue={selectedTaskData?.status}
+              onChange={(event) => handleTaskStatusOnChange(event)}
+              className={`w-full bg-transparent text-white focus:border-main-purple focus:border focus:ring-0 rounded text-[13px] `}
+            >
+              {selectedBoardData.columns.map((column, index) => {
+                return (
+                  <option
+                    className="text-black"
+                    key={index}
+                    value={column.name}
+                  >
+                    {column.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </Modal>
       </AppShell>

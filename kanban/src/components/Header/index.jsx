@@ -5,7 +5,7 @@ import iconAddTaskMobile from "../../assets/icon-add-task-mobile.svg";
 import VerticalEllipsisIcon from "../Icons/VerticalEllipsisIcon";
 import logoLight from "../../assets/logo-light.svg";
 import logoDark from "../../assets/logo-dark.svg";
-const Header = ({ setShow, toggleSidebar, isDarkTheme }) => {
+const Header = ({ setShow, toggleSidebar, isDarkTheme, selectedBoard }) => {
   return (
     <header className="flex w-full fixed">
       <div
@@ -24,7 +24,7 @@ const Header = ({ setShow, toggleSidebar, isDarkTheme }) => {
             className="dark:text-white text-black text-lg sm:text-xl lg:text-2xl font-bold"
             onClick={() => setShow(true)}
           >
-            Platform Launch
+            {selectedBoard.name}
           </button>
           <img src={icomChevronDown} alt="" className="ml-2 sm:hidden" />
         </div>
