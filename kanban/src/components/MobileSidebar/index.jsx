@@ -12,8 +12,8 @@ const MobileSidebar = ({ show, onClose, isDarkTheme, toggleTheme, data }) => {
       <div className="ml-6 mb-[19px]">
         <p className="text-xs tracking-[2.4px] text-medium-grey ">ALL BOARDS</p>
       </div>
-      {/* Modal Body */}
 
+      {/* Modal Body */}
       <div className="mr-6 mb-4">
         {data.boards.map((board, index) => {
           return (

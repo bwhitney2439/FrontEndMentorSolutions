@@ -1,6 +1,7 @@
 import React from "react";
+import Task from "../Task";
 
-const Column = ({ column }) => {
+const Column = ({ column, children }) => {
   return (
     <div className="mx-3 min-w-[280px]">
       <div className="flex items-center">
@@ -9,8 +10,8 @@ const Column = ({ column }) => {
           {column.name} ({column.tasks.length})
         </h4>
       </div>
+      {children}
     </div>
   );
 };
-
 export default Column;
