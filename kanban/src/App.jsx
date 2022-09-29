@@ -7,6 +7,8 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import data from "./data.json";
 import MobileSidebar from "./components/MobileSidebar";
 import Main from "./components/Main";
+import CreateNewBoardModal from "./components/Modals/CreateNewBoardModal";
+import Modals from "./components/Modals";
 const getInitialState = () => {
   if (
     localStorage.darkTheme === "dark" ||
@@ -28,6 +30,7 @@ const getInitialStateData = () => {
 
 function App() {
   const [show, setShow] = useState(false);
+  const [activeModal, setActiveModal] = useState("");
   const [isDarkTheme, setDarkTheme] = useLocalStorage(
     "darkTheme",
     getInitialState()
@@ -36,12 +39,16 @@ function App() {
     "data",
     getInitialStateData()
   );
-
   const [toggleSidebar, settoggleSidebar] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState(kanBanData.boards[0]);
 
   const toggleTheme = () => {
     setDarkTheme((prevValue) => !prevValue);
+  };
+
+  const handleCreateNewBoard = () => {
+    setShow(false);
+    setActiveModal("createNewBoard");
   };
 
   return (
@@ -83,11 +90,16 @@ function App() {
 
         <MobileSidebar
           data={kanBanData}
+          selectedBoard={selectedBoard}
+          setSelectedBoard={setSelectedBoard}
           toggleTheme={toggleTheme}
           onClose={() => setShow(false)}
           show={show}
           isDarkTheme={isDarkTheme}
+          handleCreateNewBoard={handleCreateNewBoard}
         />
+
+        <Modals activeModal={activeModal} setActiveModal={setActiveModal} />
       </AppShell>
     </div>
   );

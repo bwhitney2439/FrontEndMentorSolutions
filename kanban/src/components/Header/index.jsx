@@ -5,6 +5,7 @@ import iconAddTaskMobile from "../../assets/icon-add-task-mobile.svg";
 import VerticalEllipsisIcon from "../Icons/VerticalEllipsisIcon";
 import logoLight from "../../assets/logo-light.svg";
 import logoDark from "../../assets/logo-dark.svg";
+
 const Header = ({ setShow, toggleSidebar, isDarkTheme, selectedBoard }) => {
   return (
     <header className="flex w-full fixed">
