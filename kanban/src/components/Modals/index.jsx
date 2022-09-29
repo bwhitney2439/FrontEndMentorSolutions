@@ -1,5 +1,4 @@
 import React from "react";
-import CreateNewBoardModal from "./CreateNewBoardModal";
 
 const Modals = ({ activeModal, setActiveModal }) => {
   switch (activeModal) {

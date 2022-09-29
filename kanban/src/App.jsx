@@ -5,9 +5,7 @@ import ShowSidebarIcon from "./components/Icons/ShowSidebarIcon";
 import Sidebar from "./components/SIdebar";
 import useLocalStorage from "./hooks/useLocalStorage";
 import data from "./data.json";
-import MobileSidebar from "./components/MobileSidebar";
 import Main from "./components/Main";
-import CreateNewBoardModal from "./components/Modals/CreateNewBoardModal";
 import Modals from "./components/Modals";
 const getInitialState = () => {
   if (
@@ -29,8 +27,7 @@ const getInitialStateData = () => {
 };
 
 function App() {
-  const [show, setShow] = useState(false);
-  const [activeModal, setActiveModal] = useState("");
+  // const [show, setShow] = useState(false);
   const [isDarkTheme, setDarkTheme] = useLocalStorage(
     "darkTheme",
     getInitialState()
@@ -46,20 +43,21 @@ function App() {
     setDarkTheme((prevValue) => !prevValue);
   };
 
-  const handleCreateNewBoard = () => {
-    setShow(false);
-    setActiveModal("createNewBoard");
-  };
+  const handleCreateNewBoard = () => {};
 
   return (
     <div className={`${isDarkTheme && "dark"}`}>
       <AppShell
         header={
           <Header
-            setShow={setShow}
+            toggleTheme={toggleTheme}
+            setSelectedBoard={setSelectedBoard}
+            kanBanData={kanBanData}
+            // setShow={setShow}
             toggleSidebar={toggleSidebar}
             isDarkTheme={isDarkTheme}
             selectedBoard={selectedBoard}
+            handleCreateNewBoard={handleCreateNewBoard}
           />
         }
         sidebar={
@@ -87,19 +85,6 @@ function App() {
         >
           <ShowSidebarIcon className="fill-white" />
         </div>
-
-        <MobileSidebar
-          data={kanBanData}
-          selectedBoard={selectedBoard}
-          setSelectedBoard={setSelectedBoard}
-          toggleTheme={toggleTheme}
-          onClose={() => setShow(false)}
-          show={show}
-          isDarkTheme={isDarkTheme}
-          handleCreateNewBoard={handleCreateNewBoard}
-        />
-
-        <Modals activeModal={activeModal} setActiveModal={setActiveModal} />
       </AppShell>
     </div>
   );

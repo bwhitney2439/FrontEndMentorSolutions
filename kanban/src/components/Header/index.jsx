@@ -5,8 +5,18 @@ import iconAddTaskMobile from "../../assets/icon-add-task-mobile.svg";
 import VerticalEllipsisIcon from "../Icons/VerticalEllipsisIcon";
 import logoLight from "../../assets/logo-light.svg";
 import logoDark from "../../assets/logo-dark.svg";
+import MobileSidebar from "../MobileSidebar";
+import { Modal, ModalContents, ModalOpenButton } from "../Modal";
 
-const Header = ({ setShow, toggleSidebar, isDarkTheme, selectedBoard }) => {
+const Header = ({
+  toggleSidebar,
+  toggleTheme,
+  isDarkTheme,
+  selectedBoard,
+  setSelectedBoard,
+  kanBanData,
+  handleCreateNewBoard,
+}) => {
   return (
     <header className="flex w-full fixed">
       <div
@@ -20,15 +30,26 @@ const Header = ({ setShow, toggleSidebar, isDarkTheme, selectedBoard }) => {
       </div>
       <div className="flex-1 h-16 sm:h-[81px] lg:h-[97px] bg-white dark:bg-gray-dark border-b-lines-light dark:border-b-lines-dark border-b-[1px] flex items-center px-4 sm:px-6">
         <img src={logoMobile} alt="" className="sm:hidden mr-4" />
-        <div className="flex items-center">
-          <button
-            className="dark:text-white text-black text-lg sm:text-xl lg:text-2xl font-bold"
-            onClick={() => setShow(true)}
-          >
-            {selectedBoard.name}
-          </button>
-          <img src={icomChevronDown} alt="" className="ml-2 sm:hidden" />
-        </div>
+        <Modal>
+          <div className="flex items-center">
+            <ModalOpenButton>
+              <button className="dark:text-white text-black text-lg sm:text-xl lg:text-2xl font-bold">
+                {selectedBoard.name}
+              </button>
+            </ModalOpenButton>
+            <img src={icomChevronDown} alt="" className="ml-2 sm:hidden" />
+          </div>
+          <ModalContents className="sm:hidden">
+            <MobileSidebar
+              data={kanBanData}
+              selectedBoard={selectedBoard}
+              setSelectedBoard={setSelectedBoard}
+              toggleTheme={toggleTheme}
+              isDarkTheme={isDarkTheme}
+              handleCreateNewBoard={handleCreateNewBoard}
+            />
+          </ModalContents>
+        </Modal>
 
         {/* Desktop Button */}
         <button className="hidden sm:block ml-auto mr-6 text-white w-[164px] h-12 bg-main-purple hover:bg-main-purple-hover rounded-3xl">
