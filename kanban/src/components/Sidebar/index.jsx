@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logoLight from "../../assets/logo-light.svg";
 import logoDark from "../../assets/logo-dark.svg";
 import BoardIcon from "../Icons/BoardIcon";
@@ -6,16 +6,22 @@ import Toggle from "../Toggle";
 import LightThemeIcon from "../Icons/LightThemeIcon";
 import DarkThemeIcon from "../Icons/DarkThemeIcon";
 import HideSidebarIcon from "../Icons/HideSidebarIcon";
+import { Modal, ModalContents, ModalOpenButton } from "../Modal";
+import CreateNewBoardModalContent from "../Modals/CreateNewBoardModalContent";
+import { useAppManager } from "../../context/AppContext";
 
-const Sidebar = ({
-  data,
-  toggleSidebar,
-  settoggleSidebar,
-  isDarkTheme,
-  toggleTheme,
-  setSelectedBoard,
-  selectedBoard,
-}) => {
+const Sidebar = () => {
+  const {
+    kanBanData: data,
+    setSelectedBoard,
+    selectedBoard,
+    handleCreateNewBoard,
+    toggleSidebar,
+    settoggleSidebar,
+    isDarkTheme,
+    toggleTheme,
+  } = useAppManager();
+
   return (
     <aside
       className={`hidden fixed z-20 h-full top-0 sm:flex flex-col w-[300px] transition-all ${
@@ -30,43 +36,40 @@ const Sidebar = ({
           <p className="text-xs  ml-8 tracking-[2.4px] text-medium-grey mb-[19px]">
             ALL BOARDS
           </p>
-
-          {data.boards.map((board, index) => {
+          {data?.boards?.map((board, index) => {
             const { name } = board;
-
             return (
-              <div
+              <button
                 onClick={() => setSelectedBoard(board)}
                 key={name}
-                className={`flex items-center pl-8 pt-[14px] pb-[15px] ${
+                className={`flex w-full items-center pl-8 pt-[14px] pb-[15px]  ${
                   selectedBoard.name === name ? "bg-main-purple" : null
                 } dark:hover:bg-white hover:bg-main-purple hover:bg-opacity-10 hover:text-main-purple rounded-r-[100px] cursor-pointer group`}
               >
                 <BoardIcon
-                  className={`dark:fill-white  group-hover:fill-main-purple ${
+                  className={`group-hover:fill-main-purple ${
                     selectedBoard.name === name
-                      ? "fill-white"
-                      : "fill-medium-grey"
+                      ? "fill-white dark:fill-white"
+                      : "fill-medium-grey dark:fill-medium-grey"
                   }   `}
                 />
                 <h3
-                  className={`dark:text-white ${
+                  className={` ${
                     selectedBoard.name === name
-                      ? "text-white"
-                      : "text-medium-grey"
+                      ? "text-white dark:text-white"
+                      : "text-medium-grey dark:text-medium-grey"
                   }  group-hover:text-main-purple ml-4`}
                 >
                   {name}
                 </h3>
-              </div>
+              </button>
             );
           })}
-
           <div className="flex items-center pl-8 pt-[14px] pb-[15px] rounded-r-[100px]">
             <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
-            <h3 className="ml-4 dark:text-main-purple text-main-purple">
+            <button className="ml-4 dark:text-main-purple text-main-purple">
               + Create New Board
-            </h3>
+            </button>
           </div>
         </div>
 

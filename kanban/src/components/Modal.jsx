@@ -28,6 +28,14 @@ function ModalOpenButton({ children: child }) {
   });
 }
 
+function ModalDismissForm({ children: child }) {
+  const [, setIsOpen] = React.useContext(ModalContext);
+
+  return React.cloneElement(child, {
+    onSubmit: callAll(() => setIsOpen(false), child.props.onSubmit),
+  });
+}
+
 function ModalContentsBase(props) {
   const [isOpen, setIsOpen] = React.useContext(ModalContext);
 
@@ -53,4 +61,10 @@ function ModalContents({ children, ...props }) {
   return <ModalContentsBase {...props}>{children}</ModalContentsBase>;
 }
 
-export { Modal, ModalDismissButton, ModalOpenButton, ModalContents };
+export {
+  Modal,
+  ModalDismissButton,
+  ModalOpenButton,
+  ModalContents,
+  ModalDismissForm,
+};

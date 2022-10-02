@@ -5,18 +5,22 @@ import iconAddTaskMobile from "../../assets/icon-add-task-mobile.svg";
 import VerticalEllipsisIcon from "../Icons/VerticalEllipsisIcon";
 import logoLight from "../../assets/logo-light.svg";
 import logoDark from "../../assets/logo-dark.svg";
-import MobileSidebar from "../MobileSidebar";
-import { Modal, ModalContents, ModalOpenButton } from "../Modal";
+import { useAppManager } from "../../context/AppContext";
+import { useModalsManager } from "../../context/ModalsManager";
 
-const Header = ({
-  toggleSidebar,
-  toggleTheme,
-  isDarkTheme,
-  selectedBoard,
-  setSelectedBoard,
-  kanBanData,
-  handleCreateNewBoard,
-}) => {
+const Header = () => {
+  const {
+    selectedBoard,
+    setSelectedBoard,
+    kanBanData,
+    handleCreateNewBoard,
+    toggleSidebar,
+    toggleTheme,
+    isDarkTheme,
+  } = useAppManager();
+
+  const { setActiveModal } = useModalsManager();
+
   return (
     <header className="flex w-full fixed">
       <div
@@ -30,26 +34,15 @@ const Header = ({
       </div>
       <div className="flex-1 h-16 sm:h-[81px] lg:h-[97px] bg-white dark:bg-gray-dark border-b-lines-light dark:border-b-lines-dark border-b-[1px] flex items-center px-4 sm:px-6">
         <img src={logoMobile} alt="" className="sm:hidden mr-4" />
-        <Modal>
-          <div className="flex items-center">
-            <ModalOpenButton>
-              <button className="dark:text-white text-black text-lg sm:text-xl lg:text-2xl font-bold">
-                {selectedBoard.name}
-              </button>
-            </ModalOpenButton>
-            <img src={icomChevronDown} alt="" className="ml-2 sm:hidden" />
-          </div>
-          <ModalContents className="sm:hidden">
-            <MobileSidebar
-              data={kanBanData}
-              selectedBoard={selectedBoard}
-              setSelectedBoard={setSelectedBoard}
-              toggleTheme={toggleTheme}
-              isDarkTheme={isDarkTheme}
-              handleCreateNewBoard={handleCreateNewBoard}
-            />
-          </ModalContents>
-        </Modal>
+        <div className="flex items-center">
+          <button
+            className="dark:text-white text-black text-lg sm:text-xl lg:text-2xl font-bold"
+            onClick={() => setActiveModal("mobileSidebar")}
+          >
+            {selectedBoard.name}
+          </button>
+          <img src={icomChevronDown} alt="" className="ml-2 sm:hidden" />
+        </div>
 
         {/* Desktop Button */}
         <button className="hidden sm:block ml-auto mr-6 text-white w-[164px] h-12 bg-main-purple hover:bg-main-purple-hover rounded-3xl">

@@ -1,19 +1,22 @@
 import React from "react";
+import { useAppManager } from "../../context/AppContext";
+import { useModalsManager } from "../../context/ModalsManager";
 import BoardIcon from "../Icons/BoardIcon";
 import DarkThemeIcon from "../Icons/DarkThemeIcon";
 import LightThemeIcon from "../Icons/LightThemeIcon";
-import { Modal, ModalContents, ModalOpenButton } from "../Modal";
-import CreateNewBoardModalContent from "../Modals/CreateNewBoardModalContent";
 import Toggle from "../Toggle";
 
-const MobileSidebar = ({
-  isDarkTheme,
-  toggleTheme,
-  data,
-  setSelectedBoard,
-  selectedBoard,
-  handleCreateNewBoard,
-}) => {
+const MobileSidebar = () => {
+  const {
+    isDarkTheme,
+    toggleTheme,
+    kanBanData: data,
+    setSelectedBoard,
+    selectedBoard,
+  } = useAppManager();
+
+  const { setActiveModal } = useModalsManager();
+
   return (
     <>
       {/* Header */}
@@ -51,25 +54,15 @@ const MobileSidebar = ({
           );
         })}
 
-        {/* <Modal> */}
-        <Modal>
-          <ModalOpenButton>
-            <button className="flex items-center pl-8  pt-[14px] pb-[15px] rounded-r-[100px]">
-              <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
-              <h3 className="ml-4 dark:text-main-purple text-main-purple">
-                + Create New Board
-              </h3>
-            </button>
-          </ModalOpenButton>
-          <ModalContents className="m-6">
-            <CreateNewBoardModalContent
-              handleCreateNewBoard={handleCreateNewBoard}
-              data={data}
-            />
-          </ModalContents>
-        </Modal>
-
-        {/* </Modal> */}
+        <button
+          className="flex items-center pl-8  pt-[14px] pb-[15px] rounded-r-[100px]"
+          onClick={() => setActiveModal("createNewBoard")}
+        >
+          <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
+          <h3 className="ml-4 dark:text-main-purple text-main-purple">
+            + Create New Board
+          </h3>
+        </button>
       </div>
 
       {/* Footer */}
