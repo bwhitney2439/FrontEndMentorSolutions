@@ -1,23 +1,11 @@
 import React from "react";
 import Column from "../Column";
 import Task from "../Task";
-import { useState } from "react";
-import { Modal, ModalContents, ModalOpenButton } from "../Modal";
-import EditTaskModalContent from "../Modals/EditTaskModalContent";
 import { useAppManager } from "../../context/AppContext";
 import { useModalsManager } from "../../context/ModalsManager";
 
 const Main = ({ toggleSidebar }) => {
-  const {
-    kanBanData,
-    selectedBoard,
-    selectedBoardData,
-    setKanBanData,
-    handleSubTaskOnChange,
-    handleTaskStatusOnChange,
-    selectedTask,
-    setSelectedTask,
-  } = useAppManager();
+  const { kanBanData, selectedBoardData, setSelectedTask } = useAppManager();
   const { setActiveModal } = useModalsManager();
 
   const handleTaskOnClick = (task) => {

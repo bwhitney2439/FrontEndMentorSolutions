@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import CrossIcon from "../../assets/icon-cross.svg";
+import { createId } from "../../utils/createId";
 import Button from "../Button";
-import { ModalDismissForm } from "../Modal";
 
-const createID = () => {
-  return Date.now();
-};
 const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
-  const [columns, setColumns] = useState(() => [createID()]);
+  const [columns, setColumns] = useState(() => [createId()]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -23,7 +20,7 @@ const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
 
     const { boardName, ...rest } = fieldValues;
 
-    handleCreateNewBoard({ boardName, columns: Object.values(rest) });
+    // handleCreateNewBoard({ boardName, columns: Object.values(rest) });
 
     // if (formIsValid) {
     //   console.log(`Fast Form Submitted`, fieldValues);
@@ -61,13 +58,9 @@ const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
             <button
               type="button"
               onClick={() =>
-                setColumns((prev) => {
-                  const thing = prev.filter(
-                    (prevColumn) => prevColumn !== column
-                  );
-
-                  return thing;
-                })
+                setColumns((prev) =>
+                  prev.filter((prevColumn) => prevColumn !== column)
+                )
               }
             >
               <img src={CrossIcon} alt="cross-icon" srcSet="" />

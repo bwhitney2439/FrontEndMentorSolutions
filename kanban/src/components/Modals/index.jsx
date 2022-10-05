@@ -5,35 +5,9 @@ import CreateNewBoardModalContent from "./CreateNewBoardModalContent";
 import EditTaskModalContent from "./EditTaskModalContent";
 import MobileSidebar from "./MobileSideBar";
 import { useTransition, animated } from "react-spring";
+import EditTask from "./EditTask";
 
 const Modal = (props) => {
-  const transitions = useTransition(props, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-    // reverse: show,
-    delay: 2,
-    // config: config.molasses,
-    // onRest: () => set(!show),
-  });
-  return transitions((styles, item) => (
-    <animated.div
-      style={styles}
-      className={`fixed inset-0 bg-black duration-500 bg-opacity-50 flex justify-center items-start z-50 `}
-      aria-labelledby="modal-overlay"
-      role="dialog"
-      aria-modal="true"
-      onClick={() => props.setActiveModal("")}
-    >
-      <div
-        className={`w-full m-14 dark:bg-gray-dark bg-white mt-20 rounded-lg py-4 ${props.className}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {props.children}
-      </div>
-    </animated.div>
-  ));
-
   return (
     <div
       className={`fixed inset-0 bg-black duration-500 bg-opacity-50 flex justify-center items-start z-50 `}
@@ -43,7 +17,7 @@ const Modal = (props) => {
       onClick={() => props.setActiveModal("")}
     >
       <div
-        className={`w-full m-14 dark:bg-gray-dark bg-white mt-20 rounded-lg py-4 ${props.className}`}
+        className={`w-full mx-4 sm:m-14  dark:bg-gray-dark bg-white mt-20 rounded-lg py-4 ${props.className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {props.children}
@@ -79,7 +53,7 @@ const Modals = () => {
     case "editTask":
       return (
         <Modal setActiveModal={setActiveModal}>
-          <EditTaskModalContent
+          <EditTask
             selectedBoardData={selectedBoardData}
             selectedTaskData={selectedTaskData}
             handleTaskStatusOnChange={handleTaskStatusOnChange}

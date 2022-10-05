@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useAppManager } from "../../context/AppContext";
+import { useModalsManager } from "../../context/ModalsManager";
 import VerticalEllipsisIcon from "../Icons/VerticalEllipsisIcon";
 
 const EditTaskModalContent = ({}) => {
@@ -10,6 +11,7 @@ const EditTaskModalContent = ({}) => {
     handleTaskStatusOnChange,
     handleSubTaskOnChange,
   } = useAppManager();
+  const { setActiveModal } = useModalsManager();
   const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
   const ellipsisRef = useRef();
 
@@ -41,7 +43,7 @@ const EditTaskModalContent = ({}) => {
             }}
           >
             <li className="px-4 py-4  font-medium text-[13px] text-medium-grey">
-              <button onClick={() => console.log("edit task")}>
+              <button onClick={() => setActiveModal("editTask")}>
                 Edit Task
               </button>
             </li>
