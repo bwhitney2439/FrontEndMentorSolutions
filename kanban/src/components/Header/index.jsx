@@ -9,15 +9,7 @@ import { useAppManager } from "../../context/AppContext";
 import { useModalsManager } from "../../context/ModalsManager";
 
 const Header = () => {
-  const {
-    selectedBoard,
-    setSelectedBoard,
-    kanBanData,
-    handleCreateNewBoard,
-    toggleSidebar,
-    toggleTheme,
-    isDarkTheme,
-  } = useAppManager();
+  const { selectedBoard, toggleSidebar, isDarkTheme } = useAppManager();
 
   const { setActiveModal } = useModalsManager();
 
@@ -45,12 +37,18 @@ const Header = () => {
         </div>
 
         {/* Desktop Button */}
-        <button className="hidden sm:block ml-auto mr-6 text-white w-[164px] h-12 bg-main-purple hover:bg-main-purple-hover rounded-3xl">
+        <button
+          onClick={() => setActiveModal("createNewTask")}
+          className="hidden sm:block ml-auto mr-6 text-white w-[164px] h-12 bg-main-purple hover:bg-main-purple-hover rounded-3xl"
+        >
           + Add New Task
         </button>
 
         {/* Mobile Button */}
-        <button className="w-12 h-8 ml-auto mr-4 text-white sm:hidden flex items-center justify-center bg-main-purple hover:bg-main-purple-hover rounded-3xl">
+        <button
+          onClick={() => setActiveModal("createNewTask")}
+          className="w-12 h-8 ml-auto mr-4 text-white sm:hidden flex items-center justify-center bg-main-purple hover:bg-main-purple-hover rounded-3xl"
+        >
           <img src={iconAddTaskMobile} alt="" />
         </button>
         <VerticalEllipsisIcon className="fill-medium-grey cursor-pointer hover:fill" />

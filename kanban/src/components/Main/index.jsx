@@ -28,6 +28,7 @@ const Main = ({ toggleSidebar }) => {
                   {column.tasks.map((task) => {
                     return (
                       <Task
+                        key={task.title}
                         onClick={() => handleTaskOnClick(task)}
                         task={task}
                       />

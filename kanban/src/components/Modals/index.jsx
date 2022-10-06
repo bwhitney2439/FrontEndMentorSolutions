@@ -6,6 +6,7 @@ import EditTaskModalContent from "./EditTaskModalContent";
 import MobileSidebar from "./MobileSideBar";
 import { useTransition, animated } from "react-spring";
 import EditTask from "./EditTask";
+import CreateTask from "./CreateTask";
 
 const Modal = (props) => {
   return (
@@ -83,6 +84,18 @@ const Modals = () => {
             isDarkTheme={isDarkTheme}
             handleCreateNewBoard={handleCreateNewBoard}
           />
+        </Modal>
+      );
+    case "createNewTask":
+      return (
+        <Modal setActiveModal={setActiveModal} activeModal={activeModal}>
+          <CreateTask />
+        </Modal>
+      );
+    case "deleteTask":
+      return (
+        <Modal setActiveModal={setActiveModal} activeModal={activeModal}>
+          <CreateTask />
         </Modal>
       );
     default:
