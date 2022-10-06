@@ -5,6 +5,7 @@ import Button from "../Button";
 import CrossIcon from "../../assets/icon-cross.svg";
 import Input from "../Input";
 import { randomId } from "../../utils/createId";
+import { useModalsManager } from "../../context/ModalsManager";
 
 const EditTask = ({}) => {
   const {
@@ -14,6 +15,7 @@ const EditTask = ({}) => {
     setKanBanData,
     kanBanData,
   } = useAppManager();
+  const { setActiveModal } = useModalsManager();
   const [subTasks, setSubTasks] = useState(
     selectedTaskData.subtasks.map((subtask) => ({ id: randomId(), ...subtask }))
   );
@@ -35,16 +37,9 @@ const EditTask = ({}) => {
 
     const { description, status, title, ...rest } = fieldValues;
 
-    const newData = kanBanData.boards.map((board) => {
-      return {
-        name: board.name,
-        columns: board.columns.map((column) => {}),
-      };
-    });
-
     let tempData = { ...kanBanData };
     const boardIndex = tempData.boards.findIndex(
-      (board) => board.name === selectedBoardData.name
+      (board) => board.name === selectedBoard.name
     );
     const columnIndex = tempData.boards[boardIndex].columns.findIndex(
       (column) => column.name === selectedTaskData.status
@@ -53,17 +48,14 @@ const EditTask = ({}) => {
       columnIndex
     ].tasks?.findIndex((task) => task?.title === selectedTaskData?.title);
 
-    tempData.boards[boardIndex].columns[columnIndex].tasks[taskIndex] = {
-      title,
-      description,
-      status,
-      subtasks: subTasks,
-    };
-
-    const existingTask =
-      tempData.boards[boardIndex].columns[columnIndex].tasks[taskIndex];
-
-    if (status !== existingTask.status) {
+    if (status === selectedTaskData.status) {
+      tempData.boards[boardIndex].columns[columnIndex].tasks[taskIndex] = {
+        description,
+        status,
+        title,
+        subtasks: subTasks,
+      };
+    } else {
       tempData.boards[boardIndex].columns[columnIndex].tasks.splice(
         taskIndex,
         1
@@ -73,31 +65,16 @@ const EditTask = ({}) => {
         (column) => column.name === status
       );
 
-      tempData.boards[boardIndex].columns[columnIndex].tasks[taskIndex] = {
-        title,
+      tempData.boards[boardIndex].columns[newColumnIndex].tasks.push({
         description,
         status,
+        title,
         subtasks: subTasks,
-      };
+      });
     }
 
-    console.log(tempData);
-
-    // tempData.boards[boardIndex].columns[newColumnIndex].tasks.push({
-    //   ...thing[0],
-    //   status,
-    //   title,
-    //   description,
-    //   subtasks: [],
-    // });
-
-    // setKanBanData({ boards: updatedKanBanData });
-
-    // handleCreateNewBoard({ boardName, columns: Object.values(rest) });
-
-    // if (formIsValid) {
-    //   console.log(`Fast Form Submitted`, fieldValues);
-    // }
+    setKanBanData(tempData);
+    setActiveModal("");
   }
 
   return (
