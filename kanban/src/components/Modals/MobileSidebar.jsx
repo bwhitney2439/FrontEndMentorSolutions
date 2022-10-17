@@ -56,7 +56,7 @@ const MobileSidebar = () => {
 
         <button
           className="flex items-center pl-8  pt-[14px] pb-[15px] rounded-r-[100px]"
-          onClick={() => setActiveModal("createNewBoard")}
+          onClick={() => setActiveModal("createBoard")}
         >
           <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
           <h3 className="ml-4 dark:text-main-purple text-main-purple">

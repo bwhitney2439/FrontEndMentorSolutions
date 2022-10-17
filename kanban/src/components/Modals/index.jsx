@@ -1,12 +1,13 @@
 import React from "react";
 import { useAppManager } from "../../context/AppContext";
 import { useModalsManager } from "../../context/ModalsManager";
-import CreateNewBoardModalContent from "./CreateNewBoardModalContent";
 import EditTaskModalContent from "./EditTaskModalContent";
 import MobileSidebar from "./MobileSideBar";
-import { useTransition, animated } from "react-spring";
 import EditTask from "./EditTask";
 import CreateTask from "./CreateTask";
+import EditBoard from "./EditBoard";
+import CreateBoard from "./CreateBoard";
+import DeleteBoard from "./DeleteBoard";
 
 const Modal = (props) => {
   return (
@@ -43,12 +44,22 @@ const Modals = () => {
   const { activeModal, setActiveModal } = useModalsManager();
 
   switch (activeModal) {
-    case "createNewBoard":
+    case "createBoard":
       return (
         <Modal setActiveModal={setActiveModal}>
-          <CreateNewBoardModalContent
-            handleCreateNewBoard={handleCreateNewBoard}
-          />
+          <CreateBoard />
+        </Modal>
+      );
+    case "editBoard":
+      return (
+        <Modal setActiveModal={setActiveModal}>
+          <EditBoard />
+        </Modal>
+      );
+    case "deleteBoard":
+      return (
+        <Modal setActiveModal={setActiveModal}>
+          <DeleteBoard />
         </Modal>
       );
     case "editTask":
@@ -65,12 +76,7 @@ const Modals = () => {
     case "editTaskContent":
       return (
         <Modal setActiveModal={setActiveModal}>
-          <EditTaskModalContent
-            selectedBoardData={selectedBoardData}
-            selectedTaskData={selectedTaskData}
-            handleTaskStatusOnChange={handleTaskStatusOnChange}
-            handleSubTaskOnChange={handleSubTaskOnChange}
-          />
+          <EditTaskModalContent />
         </Modal>
       );
     case "mobileSidebar":

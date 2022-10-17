@@ -30,6 +30,13 @@
   p {
     @apply font-sans not-italic font-medium text-sm text-[#000112] dark:text-white;
   }
+  
+  input[type='checkbox'] {
+    @apply accent-main-purple;
+    
+  }
+
+ 
   /* ... */
 }
 

@@ -5,7 +5,7 @@ import { useAppManager } from "../../context/AppContext";
 import { useModalsManager } from "../../context/ModalsManager";
 
 const Main = ({ toggleSidebar }) => {
-  const { kanBanData, selectedBoardData, setSelectedTask } = useAppManager();
+  const { kanBanData, selectedBoard, setSelectedTask } = useAppManager();
   const { setActiveModal } = useModalsManager();
 
   const handleTaskOnClick = (task) => {
@@ -22,7 +22,7 @@ const Main = ({ toggleSidebar }) => {
       <main className="h-full">
         {kanBanData.boards.length > 0 ? (
           <div className="flex pt-6 pl-3 overflow-x-scroll h-full">
-            {selectedBoardData.columns.map((column) => {
+            {selectedBoard.columns.map((column) => {
               return (
                 <Column key={column.name} column={column}>
                   {column.tasks.map((task) => {

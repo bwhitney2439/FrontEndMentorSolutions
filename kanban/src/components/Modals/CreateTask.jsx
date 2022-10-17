@@ -23,12 +23,6 @@ const CreateTask = () => {
 
     const formData = new FormData(event.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    // const formIsValid = Object.values(fieldValues).every(
-    //   (value) => !getFieldError(value)
-    // );
-    // setWasSubmitted(true);
-
-    // defaultValue={selectedTaskData?.status}
 
     const { description, status, title, ...rest } = fieldValues;
 
@@ -62,13 +56,11 @@ const CreateTask = () => {
         type="text"
         required
         placeholder="e.g. Take coffee break"
-        defaultValue={selectedTaskData?.title}
       />
       <p htmlFor="task-description" className="text-xs mb-2 mt-6 text-white">
         Description
       </p>
       <textarea
-        defaultValue={selectedTaskData?.description}
         name="description"
         rows={4}
         placeholder="e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little."
@@ -96,7 +88,6 @@ const CreateTask = () => {
                   });
                 });
               }}
-              // defaultValue={subtask.title}
               required
               type="text"
               className="mr-4"
@@ -130,7 +121,6 @@ const CreateTask = () => {
       <p className="text-xs mb-2 mt-6">Status</p>
       <select
         name="status"
-        defaultValue={selectedTaskData?.status}
         className={`w-full bg-transparent text-white focus:border-main-purple focus:border focus:ring-0 rounded text-[13px] `}
       >
         {selectedBoardData.columns.map((column, index) => {

@@ -6,21 +6,21 @@ import Toggle from "../Toggle";
 import LightThemeIcon from "../Icons/LightThemeIcon";
 import DarkThemeIcon from "../Icons/DarkThemeIcon";
 import HideSidebarIcon from "../Icons/HideSidebarIcon";
-import { Modal, ModalContents, ModalOpenButton } from "../Modal";
-import CreateNewBoardModalContent from "../Modals/CreateNewBoardModalContent";
 import { useAppManager } from "../../context/AppContext";
+import { useModalsManager } from "../../context/ModalsManager";
 
 const Sidebar = () => {
   const {
     kanBanData: data,
     setSelectedBoard,
     selectedBoard,
-    handleCreateNewBoard,
     toggleSidebar,
     settoggleSidebar,
     isDarkTheme,
     toggleTheme,
   } = useAppManager();
+
+  const { setActiveModal } = useModalsManager();
 
   return (
     <aside
@@ -67,7 +67,10 @@ const Sidebar = () => {
           })}
           <div className="flex items-center pl-8 pt-[14px] pb-[15px] rounded-r-[100px]">
             <BoardIcon className="fill-main-purple group-hover:fill-main-purple" />
-            <button className="ml-4 dark:text-main-purple text-main-purple">
+            <button
+              onClick={() => setActiveModal("createBoard")}
+              className="ml-4 dark:text-main-purple text-main-purple"
+            >
               + Create New Board
             </button>
           </div>

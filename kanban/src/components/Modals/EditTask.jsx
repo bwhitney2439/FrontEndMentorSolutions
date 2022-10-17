@@ -10,6 +10,7 @@ import { useModalsManager } from "../../context/ModalsManager";
 const EditTask = ({}) => {
   const {
     selectedTaskData,
+    selectedTask,
     selectedBoardData,
     selectedBoard,
     setKanBanData,
@@ -122,7 +123,6 @@ const EditTask = ({}) => {
                   });
                 });
               }}
-              // defaultValue={subtask.title}
               required
               type="text"
               className="mr-4"

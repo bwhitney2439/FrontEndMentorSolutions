@@ -1,30 +1,26 @@
 import React, { useState } from "react";
 import CrossIcon from "../../assets/icon-cross.svg";
-import { createId } from "../../utils/createId";
+import { useAppManager } from "../../context/AppContext";
+import { useModalsManager } from "../../context/ModalsManager";
+import { randomId } from "../../utils/createId";
 import Button from "../Button";
 
-const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
-  const [columns, setColumns] = useState(() => [createId()]);
-
+const CreateBoard = () => {
+  const { kanBanData, setKanBanData } = useAppManager();
+  const { setActiveModal } = useModalsManager();
+  const [columns, setColumns] = useState([]);
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const fieldValues = Object.fromEntries(formData.entries());
-    // const formIsValid = Object.values(fieldValues).every(
-    //   (value) => !getFieldError(value)
-    // );
-    // setWasSubmitted(true);
 
-    // defaultValue={selectedTaskData?.status}
-    console.log(fieldValues);
+    const { boardName } = fieldValues;
 
-    const { boardName, ...rest } = fieldValues;
-
-    // handleCreateNewBoard({ boardName, columns: Object.values(rest) });
-
-    // if (formIsValid) {
-    //   console.log(`Fast Form Submitted`, fieldValues);
-    // }
+    const updateKanBanData = {
+      boards: [...kanBanData.boards, { name: boardName, columns: columns }],
+    };
+    setKanBanData(updateKanBanData);
+    setActiveModal("");
   }
 
   return (
@@ -47,9 +43,29 @@ const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
       </p>
       {columns.map((column) => {
         return (
-          <div className="flex mb-3" key={column}>
+          <div className="flex mb-3" key={column.id}>
             <input
-              name={column}
+              name={column.id}
+              value={column.name}
+              onChange={(event) => {
+                setColumns((prev) => {
+                  return prev.map((prevColumn) => {
+                    if (prevColumn.id === column.id) {
+                      return {
+                        ...prevColumn,
+                        name: event.target.value,
+                        tasks: prevColumn.tasks.map((task) => {
+                          return {
+                            ...task,
+                            status: event.target.value,
+                          };
+                        }),
+                      };
+                    }
+                    return { ...prevColumn };
+                  });
+                });
+              }}
               required
               className="block w-full bg-transparent text-white focus:border-main-purple focus:border focus:ring-0 rounded text-[13px] mr-4"
               type="text"
@@ -59,7 +75,7 @@ const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
               type="button"
               onClick={() =>
                 setColumns((prev) =>
-                  prev.filter((prevColumn) => prevColumn !== column)
+                  prev.filter((prevColumn) => prevColumn.id !== column.id)
                 )
               }
             >
@@ -71,7 +87,12 @@ const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
 
       <Button
         type="button"
-        onClick={() => setColumns((prev) => [...prev, Date.now()])}
+        onClick={() =>
+          setColumns((prev) => [
+            ...prev,
+            { id: randomId(), name: "", tasks: [] },
+          ])
+        }
         className="w-full mb-6 bg-white text-main-purple hover:bg-white"
       >
         + Add New Column
@@ -83,4 +104,4 @@ const CreateNewBoardModalContent = ({ handleCreateNewBoard }) => {
   );
 };
 
-export default CreateNewBoardModalContent;
+export default CreateBoard;

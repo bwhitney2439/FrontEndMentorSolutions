@@ -1,11 +1,36 @@
 import React, { createContext, useContext, useState } from "react";
 import data from "../data.json";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { randomId } from "../utils/createId";
 const getInitialStateData = () => {
   if ("data" in localStorage) {
     return JSON.parse(localStorage.data);
   }
-  return data;
+
+  const decoratedData = {
+    boards: data.boards.map((board) => {
+      return {
+        id: randomId(),
+        ...board,
+        columns: board.columns.map((column) => {
+          return {
+            ...column,
+            id: randomId(),
+            tasks: column.tasks.map((task) => {
+              return {
+                ...task,
+                id: randomId(),
+                subtasks: task.subtasks.map((subtask) => {
+                  return { ...subtask, id: randomId() };
+                }),
+              };
+            }),
+          };
+        }),
+      };
+    }),
+  };
+  return decoratedData;
 };
 const AppManagerContext = createContext(null);
 
@@ -14,6 +39,7 @@ const AppManager = ({ children, ...props }) => {
     "data",
     getInitialStateData()
   );
+
   const [selectedBoard, setSelectedBoard] = useState(kanBanData.boards[0]);
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -72,22 +98,6 @@ const AppManager = ({ children, ...props }) => {
     setKanBanData({ boards: updatedKanBanData });
   };
 
-  const handleCreateNewBoard = (newBoard) => {
-    setKanBanData((prev) => ({
-      ...prev,
-      boards: [
-        ...prev.boards,
-        {
-          name: newBoard.boardName,
-          columns: newBoard.columns.map((column) => ({
-            name: column,
-            tasks: [],
-          })),
-        },
-      ],
-    }));
-  };
-
   const selectedBoardData = kanBanData.boards.find(
     (board) => board.name === selectedBoard.name
   );
@@ -115,7 +125,6 @@ const AppManager = ({ children, ...props }) => {
     selectedTask,
     setSelectedBoard,
     setSelectedTask,
-    handleCreateNewBoard,
     handleSubTaskOnChange,
     handleTaskStatusOnChange,
     selectedBoardData,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import logoMobile from "../../assets/logo-mobile.svg";
 import icomChevronDown from "../../assets/icon-chevron-down.svg";
 import iconAddTaskMobile from "../../assets/icon-add-task-mobile.svg";
@@ -13,6 +13,9 @@ const Header = () => {
 
   const { setActiveModal } = useModalsManager();
 
+  const [isBoardMenuOpen, setIsBoardMenuOpen] = useState(false);
+  const ellipsisRef = useRef();
+
   return (
     <header className="flex w-full fixed">
       <div
@@ -24,7 +27,10 @@ const Header = () => {
           <img src={isDarkTheme ? logoLight : logoDark} alt="" />
         </div>
       </div>
-      <div className="flex-1 h-16 sm:h-[81px] lg:h-[97px] bg-white dark:bg-gray-dark border-b-lines-light dark:border-b-lines-dark border-b-[1px] flex items-center px-4 sm:px-6">
+      <div
+        onClick={() => setIsBoardMenuOpen(false)}
+        className="flex-1 h-16 sm:h-[81px] lg:h-[97px] bg-white dark:bg-gray-dark border-b-lines-light dark:border-b-lines-dark border-b-[1px] flex items-center px-4 sm:px-6"
+      >
         <img src={logoMobile} alt="" className="sm:hidden mr-4" />
         <div className="flex items-center">
           <button
@@ -51,7 +57,42 @@ const Header = () => {
         >
           <img src={iconAddTaskMobile} alt="" />
         </button>
-        <VerticalEllipsisIcon className="fill-medium-grey cursor-pointer hover:fill" />
+
+        <button
+          ref={ellipsisRef}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsBoardMenuOpen((prev) => !prev);
+          }}
+        >
+          <VerticalEllipsisIcon className="fill-medium-grey cursor-pointer hover:fill" />
+        </button>
+
+        {ellipsisRef?.current && (
+          <ul
+            className={`absolute text-white right-0 bg-very-dark-grey transition-all w-48 ${
+              isBoardMenuOpen ? "opacity-100" : "opacity-0"
+            } rounded-lg`}
+            style={{
+              top:
+                ellipsisRef?.current?.offsetTop +
+                ellipsisRef?.current?.clientHeight +
+                32,
+              right: 24,
+            }}
+          >
+            <li className="px-4 py-4  font-medium text-[13px] text-medium-grey">
+              <button onClick={() => setActiveModal("editBoard")}>
+                Edit Board
+              </button>
+            </li>
+            <li className="px-4 pb-4 text-red font-medium text-[13px]">
+              <button onClick={() => setActiveModal("deleteBoard")}>
+                Delete Board
+              </button>
+            </li>
+          </ul>
+        )}
       </div>
     </header>
   );
